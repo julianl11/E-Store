@@ -1,0 +1,32 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "LD01 LOUNGE CHAIR",
+            "price": 200,
+            "images": [
+                "images-test/1000042979.jpg",
+                "images-test/1000042980.jpg",
+                "images-test/1000042981.jpg",
+                "images-test/1000042982.jpg",
+                "images-test/1000042983.jpg"
+            ],
+            "description": "A stylish red printed T-shirt for everyday wear."
+        },
+        {
+            "id": 2,
+            "name": "Blue Denim Jacket",
+            "price": 50,
+            "images": [
+                "images-test/1000042984.jpg",
+                "images-test/1000042985.jpg",
+                "images-test/1000042986.jpg",
+                "images-test/1000042987.jpg",
+                "images-test/1000042988.jpg"
+            ],
+            "description": "Comfortable blue denim jacket for all seasons."
+        }
+
+    ]
+    
+}

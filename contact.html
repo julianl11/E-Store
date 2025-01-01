@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emma Clo. | Contact Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+
+.cart-icon {
+    position: relative;
+}
+
+.cart-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background: #ff3d00;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+/* Main Content */
+.contact-section {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.contact-section h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.contact-section p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #fa8072;
+    outline: none;
+}
+
+.btn-submit {
+    padding: 10px 20px;
+    background: #fa8072;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: #e06a5b;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+
+    
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="index.html"><img src="logos/2-removebg-preview.png" width="280px"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <a class="icon-Cart">
+                <img src="images/cart-148964_1280.png" width="30px" height="30px">
+                <span class="cart-count">0</span>
+            </a>
+            <img src="images/icon-1976100_1280.png" class="menu-icon" onclick="menutoggle()">
+        </div>
+
+    </div>
+</div>
+
+<!-------------------------------------------------->
+<main>
+    <section class="contact-section">
+        <h1>Contact Us</h1>
+        <p>We’d love to hear from you! Please fill out the form below.</p>
+<form class="contact-form" id="contactForm">
+    <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+    </div>
+    <div class="form-group">
+    <label for="email">E-Mail:</label> 
+    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+    </div>
+    <div class="form-group">
+    <label for="message">Nachricht:</label>
+    <textarea id="message" rows="5" name="message" placeholder="Type your message here..." required></textarea>
+    </div>
+    
+    <button type="submit" class="btn-submit">Nachricht senden</button>
+    </form>
+    </section>
+</main>
+<script>
+    const webhookUrl = 'https://discordapp.com/api/webhooks/1323972771616657470/XopXdGJ2EwNG6Vt_PejfVeTvrNHbzqMNsobHxiaqD55D61BXJP-dUtuu7qXkOhZJIQ6b'; // Füge deine Discord-Webhook-URL ein
+
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Formulardaten erfassen
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        // Überprüfen, ob alle Felder ausgefüllt sind
+        if (!name || !email || !message) {
+            alert('Bitte fülle alle Felder aus.');
+            return;
+        }
+
+        // Nachricht an Discord vorbereiten
+        const payload = {
+            content: null, // Text kann leer bleiben, da wir Embeds nutzen
+            embeds: [
+                {
+                    title: 'Neue Nachricht vom Kontaktformular',
+                    color: 3447003, // Blau
+                    fields: [
+                        {
+                            name: 'Name',
+                            value: name,
+                            inline: true
+                        },
+                        {
+                            name: 'E-Mail',
+                            value: email,
+                            inline: true
+                        },
+                        {
+                            name: 'Nachricht',
+                            value: message,
+                            inline: false
+                        }
+                    ],
+                    timestamp: new Date().toISOString()
+                }
+            ]
+        };
+
+        try {
+            // Sende die Nachricht an Discord
+            const response = await fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                alert('Nachricht erfolgreich an Discord gesendet!');
+                e.target.reset(); // Formular zurücksetzen
+            } else {
+                const errorText = await response.text();
+                alert('Fehler beim Senden der Nachricht: ' + errorText);
+            }
+        } catch (error) {
+            console.error('Fehler:', error);
+            alert('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+        }
+    });
+</script>
+
+    
+
+<!----------footer------------>
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Subscibe to our Newsletter</h3>
+            </div>
+            <div class="footer-col-2">
+                <a href="index.html">
+                    <img src="logos/2-removebg-preview.png" alt="Logo">
+                </a>
+                <p>Wear Handwear!!</p>
+            </div>
+            <div class="footer-col-3">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li>Coupons</li>
+                    <li>Email</li>
+                    <li>Return Policy</li>
+                </ul>
+            </div>
+
+        </div>
+        <hr>
+        <p class="copyright">Copyright 2024 - EmmaClo</p>
+    </div>
+</div>
+
+<!----------Shopping Cart-------->
+<div class="showCart">
+    <div class="cartTab">
+    <h1>Shopping Cart</h1> 
+    <div class="listCart">
+        <div class="listProduct"></div>
+
+    </div>
+    <div class="btn-2">
+        <button class="close">CLOSE</button>
+        <button class="checkout" >CHECK OUT</button>
+    </div>
+    
+</div>
+
+<!--------js for toogle menu---------->
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+
+        MenuItems.style.maxHeight = "0px";
+
+        function menutoggle(){
+            if(MenuItems.style.maxHeight == "0px"){
+                MenuItems.style.maxHeight = "200px";
+            }
+            else{
+                MenuItems.style.maxHeight = "0px";
+            }
+        }
+    </script>
+
+
+<script src="productdetails.js"></script>
+<script src="central-cart.js"></script>
+</body>
+</html>

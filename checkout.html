@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmmaClo. | Checkout</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+
+    
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="index.html"><img src="logos/2-removebg-preview.png" width="280px"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <a class="icon-Cart">
+                <img src="images/cart-148964_1280.png" width="30px" height="30px">
+                <span class="cart-count">0</span>
+            </a>
+            <img src="images/icon-1976100_1280.png" class="menu-icon" onclick="menutoggle()">
+        </div>
+
+    </div>
+</div>
+<!---------------checkout ------------->
+
+<div class="container">
+    <header>
+        <h1>Checkout</h1>
+    </header>
+
+    <div class="checkout-content">
+        <div class="cart-summary">
+            <h2>Warenkorb</h2>
+            <div class="cart-items" id="cart-items">
+                <!-- Dynamische Warenkorb Items werden hier hinzugefügt -->
+            </div>
+            <div class="cart-total" id="cart-total">
+                <!-- Gesamtpreis wird hier angezeigt -->
+            </div>
+        </div>
+
+        <div class="billing-details">
+            <h2>Rechnungsdetails</h2>
+            <form id="billing-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Dein Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-Mail</label>
+                    <input type="email" id="email" placeholder="Deine E-Mail" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Adresse</label>
+                    <input type="text" id="address" placeholder="Deine Adresse" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">Stadt</label>
+                    <input type="text" id="city" placeholder="Deine Stadt" required>
+                </div>
+                <div class="form-group">
+                    <label for="zip">Postleitzahl</label>
+                    <input type="text" id="zip" placeholder="Deine Postleitzahl" required>
+                </div>
+                <div class="form-group">
+                    <label for="country">Land</label>
+                    <select id="country" required>
+                        <option value="de">Deutschland</option>
+                        <option value="at">Österreich</option>
+                        <option value="ch">Schweiz</option>
+                    </select>
+                </div>
+
+                <div class="payment-method">
+                    <h3>Zahlungsmethode</h3>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="payment-method" value="credit-card" required>
+                            Kreditkarte
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="payment-method" value="paypal">
+                            PayPal
+                            
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <label>
+                            <input type="radio" name="payment-method" value="paypal">
+                            Rechnung
+                            
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="pay-now">Jetzt bezahlen</button>
+            </form>
+
+        
+           
+        </div>
+    </div>
+</div>
+
+<script>
+    // Discord Webhook URL
+const discordWebhookUrl = "https://discordapp.com/api/webhooks/1323997243388461117/BdcrZ6iSNa4VDUhuqBuoxYD_I_Km7O4y1lKNwf4mZ8HCvlnY0nZnog1P0uujWVb1IGhu";
+
+// Event Listener für das Formular
+document.getElementById("billing-form").addEventListener("submit", async (event) => {
+    event.preventDefault(); // Verhindert das Neuladen der Seite
+
+    // Sammeln der Rechnungsdetails
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const address = document.getElementById("address").value;
+    const city = document.getElementById("city").value;
+    const zip = document.getElementById("zip").value;
+    const country = document.getElementById("country").value;
+    const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+
+    // Überprüfen, ob alle erforderlichen Felder ausgefüllt sind
+    if (!name || !email || !address || !city || !zip || !country || !paymentMethod) {
+        alert("Bitte fülle alle Felder aus!");
+        return;
+    }
+
+    // Warenkorbinhalt sammeln
+    const cartItemsElement = document.getElementById("cart-items");
+    const cartTotalElement = document.getElementById("cart-total");
+
+    // Artikel aus dem Warenkorb abrufen
+    const cartItems = Array.from(cartItemsElement.children).map(item => item.textContent.trim());
+    const cartTotal = cartTotalElement.textContent.trim();
+
+    // Nachricht für den Discord Webhook
+    const webhookMessage = {
+        content: "**Neue Bestellung erhalten!**",
+        embeds: [
+            {
+                title: "Bestellinformationen",
+                fields: [
+                    { name: "Name", value: name, inline: true },
+                    { name: "E-Mail", value: email, inline: true },
+                    { name: "Adresse", value: address },
+                    { name: "Stadt", value: city, inline: true },
+                    { name: "Postleitzahl", value: zip, inline: true },
+                    { name: "Land", value: country, inline: true },
+                    { name: "Zahlungsmethode", value: paymentMethod, inline: true },
+                ],
+                color: 3066993, // Grün
+                footer: {
+                    text: "Checkout-System",
+                },
+                timestamp: new Date().toISOString(),
+            },
+            {
+                title: "Warenkorbinhalt",
+                fields: cartItems.map((item, index) => ({
+                    name: `Artikel ${index + 1}`,
+                    value: item,
+                    inline: false,
+                })),
+                color: 3447003, // Blau
+            },
+            {
+                title: "Gesamtpreis",
+                description: cartTotal,
+                color: 15105570, // Rot
+            },
+        ],
+    };
+
+    try {
+        // Senden der Daten an den Discord Webhook
+        const response = await fetch(discordWebhookUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(webhookMessage),
+        });
+
+        if (response.ok) {
+            alert("Bestellung erfolgreich gesendet!");
+
+            // Umleitung zur Success-Seite
+            window.location.href = "success.html";
+        } else {
+            console.error("Fehler beim Senden der Bestellung:", response.statusText);
+            alert("Es gab ein Problem beim Senden der Bestellung.");
+        }
+    } catch (error) {
+        console.error("Netzwerkfehler:", error);
+        alert("Es gab ein Problem beim Senden der Bestellung.");
+    }
+});
+
+</script>
+
+
+
+<!----------Shopping Cart-------->
+<div class="showCart">
+    <div class="cartTab">
+    <h1>Shopping Cart</h1> 
+    <div class="listCart">
+        <div class="listProduct"></div>
+
+    </div>
+    <div class="btn-2">
+        <button class="close">CLOSE</button>
+        <button class="checkout" >CHECK OUT</button>
+    </div>
+    
+</div>
+
+<!---------------footer--------------->
+
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Subscibe to our Newsletter</h3>
+            </div>
+            <div class="footer-col-2">
+                <a href="index.html">
+                    <img src="logos/2-removebg-preview.png" alt="Logo">
+                </a>
+                <p>Wear Handwear!!</p>
+            </div>
+            <div class="footer-col-3">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li>Coupons</li>
+                    <li>Email</li>
+                    <li>Return Policy</li>
+                </ul>
+            </div>
+
+        </div>
+        <hr>
+        <p class="copyright">Copyright 2024 - EmmaClo</p>
+    </div>
+</div>
+<!--------js for toogle menu---------->
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+
+        MenuItems.style.maxHeight = "0px";
+
+        function menutoggle(){
+            if(MenuItems.style.maxHeight == "0px"){
+                MenuItems.style.maxHeight = "200px";
+            }
+            else{
+                MenuItems.style.maxHeight = "0px";
+            }
+        }
+    </script>
+<!----------js for dynamic cart-------->
+
+<script src="productdetails.js"></script>
+<script src="cart.js"></script>
+<script src="checkout.js"></script>
+
+
+<style>
+    /* Allgemeine Stile */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #4CAF50;
+}
+
+/* Checkout-Bereich */
+.checkout-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.cart-summary, .billing-details {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 48%;
+}
+
+.cart-summary h2, .billing-details h2 {
+    font-size: 1.8rem;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.cart-items {
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.cart-item img {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.item-info {
+    flex-grow: 1;
+}
+
+.item-info p {
+    margin: 5px 0;
+}
+
+.cart-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: right;
+}
+
+.billing-details form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.payment-method {
+    margin: 20px 0;
+}
+
+.payment-option label {
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.payment-method input {
+    margin-right: 10px;
+}
+
+button.btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.btn:hover {
+    background-color: #45a049;
+}
+
+</style>
+</html>
+

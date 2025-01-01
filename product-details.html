@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmmaClo. | Product</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="singles.js" defer></script>
+</head>
+<body>
+    
+
+    
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="index.html"><img src="logos/2-removebg-preview.png" width="280px"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html" class="active">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+                <div class="icon-cart">
+                    <a class="icon-Cart">
+                        <img src="images/cart-148964_1280.png" width="30px" height="30px">
+                        <span class="cart-count">0</span>
+                    </a>
+                <img src="images/icon-1976100_1280.png" class="menu-icon" onclick="menutoggle()">
+            </div>
+    
+        </div>
+    </div>
+
+ 
+<!------------dynamic single Product----------->
+
+<div class="small-container single-product" id="product-details-container">
+    <!-- Dynamischer Inhalt wird hier eingefügt -->
+</div>
+
+<!------------shopping gallerie------------->
+
+
+<div class="gallery" id="galleryContainer"></div>
+<div id="imageModal" class="modal">
+    <span id="closeModal" class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
+<!-- Verlinkung zur externen JSON-Datei -->
+<script d="productData"></script>
+
+<!-- Verlinkung zur externen JavaScript-Datei -->
+<script src="gallerie.js"></script>
+
+<!----------Item in Shopping Cart------>
+<div class="small-container">
+    <div class="row row-2">
+        <div class="row">
+            <div class="listProduct"></div>
+        </div>
+    </div>
+</div>  
+
+<!----------Shopping Cart-------->
+<div class="showCart">
+    <div class="cartTab">
+    <h1>Shopping Cart</h1> 
+    <div class="listCart">
+        <div class="listProduct"></div>
+
+    </div>
+    <div class="btn-2">
+        <button class="close">CLOSE</button>
+        <button class="checkout" >CHECK OUT</button>
+    </div>
+    
+</div>
+</div>
+<!----------title-------------->
+
+<!----------Item in Shopping Cart------>
+
+        
+
+<!----------footer------------>
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Subscibe to our Newsletter</h3>
+            </div>
+            <div class="footer-col-2">
+                <a href="index.html">
+                    <img src="logos/2-removebg-preview.png" alt="Logo">
+                </a>
+                <p>Wear Handwear!!</p>
+            </div>
+            <div class="footer-col-3">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li>Coupons</li>
+                    <li>Email</li>
+                    <li>Return Policy</li>
+                </ul>
+            </div>
+
+        </div>
+        <hr>
+        <p class="copyright">Copyright 2024 - EmmaClo</p>
+    </div>
+</div>
+<!--------js for toogle menu---------->
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+
+        MenuItems.style.maxHeight = "0px";
+
+        function menutoggle(){
+            if(MenuItems.style.maxHeight == "0px"){
+                MenuItems.style.maxHeight = "200px";
+            }
+            else{
+                MenuItems.style.maxHeight = "0px";
+            }
+        }
+    </script>
+<!----------js for product gallery-------->
+<script>
+    // Event-Listener für den CLOSE-Button hinzufügen
+    document.querySelector('.close').addEventListener('click', () => {
+    document.querySelector('.showCart').style.display = 'none'; // Schließt den Warenkorb
+});
+
+</script>
+    <script src="productdetails.js"></script>
+    
+</body>
+</html>
